@@ -30,12 +30,15 @@ with col1:
     if st.button("법률 검색") and query:
         with st.spinner(f"🔎 '{query}'을(를) 포함하는 조문을 검색 중입니다..."):
             results = fetch_law_list_and_detail(query, unit)
-            print("🔁 [DEBUG] 최종 반환된 법률 수:", len(results))
-            for law in results:
-                with st.expander(f"{law['법령명한글']}"):
-                    st.markdown(f"[원문 보기]({law['원문링크']})", unsafe_allow_html=True)
-                    for 조 in law["조문"]:
-                        st.markdown(조, unsafe_allow_html=True)
+if results:
+    for law in results:
+        with st.expander(f"{law['법령명한글']}"):
+            st.markdown(f"[원문 보기]({law['원문링크']})", unsafe_allow_html=True)
+            for 조 in law["조문"]:
+                st.markdown(조, unsafe_allow_html=True)
+else:
+    st.warning("🔍 검색 결과가 없습니다. 검색어를 다시 확인해 주세요.")
+
 with col2:
     if st.button("초기화"):
         st.experimental_rerun()
